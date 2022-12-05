@@ -9,7 +9,7 @@
         <groupId>io.matchedup</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>api</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </dependency>
 </dependencies>
 ```
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'io.matchedup:api:0.0.1-SNAPSHOT'
+    compile 'io.matchedup:api:0.0.1'
 }
 ```
 
