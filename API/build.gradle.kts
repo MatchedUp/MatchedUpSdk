@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.6.20"
     kotlin("plugin.serialization") version "1.6.20"
+    `maven-publish`
 }
 
 repositories {
@@ -14,4 +15,15 @@ dependencies {
     implementation("org.java-websocket:Java-WebSocket:1.5.3")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "io.matchedup"
+            version = version
+            artifactId = project.name.toLowerCase()
+            from(components["java"])
+        }
+    }
 }
