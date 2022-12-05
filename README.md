@@ -1,7 +1,6 @@
 # [MatchedUp](https://matchedup.io)
-<hr />
 
-## Usage
+## Installing
 
 #### Maven
 ```xml
@@ -26,7 +25,7 @@ dependencies {
 }
 ```
 
-### Code
+## Usage
 
 #### Create the client & connect
 ```java
@@ -69,7 +68,7 @@ public Unit onMatchCreated(MatchCreatedEvent event) {
 }
 ```
 
-#### List of events
+## List of events
 
 - **ConnectedEvent**: Connected to the MatchedUp servers
 - **DisconnectedEvent**: Disconnected from MatchedUp servers
