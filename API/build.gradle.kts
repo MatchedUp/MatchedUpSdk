@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm")
     kotlin("plugin.serialization") version "1.6.20"
     `maven-publish`
 }
@@ -24,6 +24,16 @@ publishing {
             version = version
             artifactId = project.name.toLowerCase()
             from(components["java"])
+        }
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/MatchedUp/MatchedUpSdk")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
         }
     }
 }
