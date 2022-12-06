@@ -53,7 +53,10 @@ publishing {
         if (version.toString().endsWith("SNAPSHOT")) {
             maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
                 name = "sonatypeReleaseRepository"
-                credentials(PasswordCredentials::class)
+                credentials {
+                    username = System.getenv("SONATYPE_USERNAME")
+                    password = System.getenv("SONATYPE_PASSWORD")
+                }
             }
         } else {
             maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
