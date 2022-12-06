@@ -51,6 +51,7 @@ publishing {
     }
     repositories {
         if (version.toString().endsWith("SNAPSHOT")) {
+            println("Using SNAPSHOT version: " + version.toString())
             maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
                 name = "sonatypeReleaseRepository"
                 credentials {
@@ -59,6 +60,7 @@ publishing {
                 }
             }
         } else {
+            println("Using Release version: " + version.toString())
             maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 name = "sonatypeSnapshotRepository"
                 credentials {
