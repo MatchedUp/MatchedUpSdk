@@ -20,7 +20,7 @@ dependencies {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("Maven") {
             groupId = "io.matchedup"
             version = version
             artifactId = project.name.toLowerCase()
@@ -58,12 +58,15 @@ publishing {
         } else {
             maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 name = "sonatypeSnapshotRepository"
-                credentials(PasswordCredentials::class)
+                credentials {
+                    username = System.getenv("SONATYPE_USERNAME")
+                    password = System.getenv("SONATYPE_PASSWORD")
+                }
             }
         }
     }
 }
 
 signing {
-    sign(publishing.publications["mavenJava"])
+    sign(publishing.publications["Maven"])
 }
