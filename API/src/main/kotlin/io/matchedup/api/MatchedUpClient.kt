@@ -21,7 +21,7 @@ class MatchedUpClient(
 ) {
 
     val eventBus = EventBus<IEvent>()
-    private val wsUrl = "wss://ws.matchedup.io/dev"
+    private val wsUrl = "wss://ws.matchedup.io/v2"
 
     private lateinit var matchedUpService: MatchedUpService
 
