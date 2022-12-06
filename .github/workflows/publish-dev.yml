@@ -5,7 +5,7 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  publish-pkg:
+  publish-dev:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout latest code
@@ -24,10 +24,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Publish to Github Packages
+      - name: Publish to Maven Central
         uses: gradle/gradle-build-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_KEYID: ${{ secrets.GPG_KEYID }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
         with:
           gradle-version: 7.3.3
           arguments: publish
