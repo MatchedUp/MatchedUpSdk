@@ -21,7 +21,18 @@ repositories {
 }
 
 dependencies {
-    compile 'io.matchedup:api:0.0.1-SNAPSHOT'
+    implementation 'io.matchedup:api:0.0.1-SNAPSHOT'
+}
+```
+
+#### Gradle Kotlin DSL
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.matchedup:api:0.0.1-SNAPSHOT")
 }
 ```
 
@@ -80,3 +91,9 @@ public Unit onMatchCreated(MatchCreatedEvent event) {
 - **UserErrorEvent**: A user error has occurred
 - **ClientErrorEvent**: A client (consumer of the SDK) error has occurred
 - **ServerErrorEvent**: An unexpected MatchedUp server error has occurred
+
+## State of Development
+
+MatchedUp is currently in its beta stage and fully usable, but continuously under development.
+More features are constantly being planned and added to the service, and you can track their progress 
+on the [public Trello board](https://trello.com/b/2LaSu2oa/matchedup)
