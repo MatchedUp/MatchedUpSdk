@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version "1.6.20"
+    id("org.jetbrains.dokka") version "1.7.20"
     `maven-publish`
     signing
 }
@@ -16,11 +17,29 @@ dependencies {
     implementation("org.java-websocket:Java-WebSocket:1.5.3")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")
+}
+
+val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
+
+val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+    dependsOn(dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaHtml.outputDirectory)
+}
+
+val sourcesJar by tasks.creating(Jar::class) {
+    dependsOn(JavaPlugin.CLASSES_TASK_NAME)
+    archiveClassifier.set("sources")
+    from(sourceSets["main"].allSource)
 }
 
 publishing {
     publications {
         create<MavenPublication>("Maven") {
+            artifact(javadocJar)
+            artifact(sourcesJar)
             groupId = "io.matchedup"
             version = version
             artifactId = project.name.toLowerCase()
