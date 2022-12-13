@@ -92,9 +92,12 @@ publishing {
 }
 
 signing {
-    if (System.getenv("GPG_KEY") !== null) {
-        val signingKey: String = System.getenv("GPG_KEY")
-        val signingPassword: String = System.getenv("GPG_PASSWORD")
+    val signingKey: String? = System.getenv("GPG_KEY")
+    val signingPassword: String? = System.getenv("GPG_PASSWORD")
+
+    if (signingKey == null || signingPassword == null) {
+        println("No signing credentials detected, skipping signing for published artifacts.")
+    } else {
         useInMemoryPgpKeys(signingKey, signingPassword)
         sign(publishing.publications["Maven"])
     }

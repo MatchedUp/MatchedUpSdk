@@ -3,7 +3,7 @@ package io.matchedup.examples.velocity.commands;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import io.matchedup.api.MatchedUpClient;
-import io.matchedup.api.actions.impl.RequestMatch;
+import io.matchedup.api.actions.RequestMatch;
 import io.matchedup.api.types.PlayerAttributeType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

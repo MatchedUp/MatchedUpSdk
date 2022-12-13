@@ -22,6 +22,7 @@ class MatchedUpClient(
 
     val eventBus = EventBus<IEvent>()
     private val wsUrl = "wss://ws.matchedup.io/v2"
+    private var isManuallyClosed = false;
 
     private lateinit var matchedUpService: MatchedUpService
 
@@ -48,15 +49,19 @@ class MatchedUpClient(
     }
 
     private fun onWsDisconnect(event: DisconnectedEvent) {
-        log.debug("Attempting to reconnect")
-        Thread.sleep(10000)
-        connect()
+        if (!isManuallyClosed) {
+            log.debug("Attempting to reconnect")
+            Thread.sleep(10000)
+            connect()
+        }
     }
 
     fun submitAction(action: IAction) =
         matchedUpService.sendAction(action)
 
     fun close() {
+        log.debug("Shutting down...")
         matchedUpService.close()
+        isManuallyClosed = true
     }
 }

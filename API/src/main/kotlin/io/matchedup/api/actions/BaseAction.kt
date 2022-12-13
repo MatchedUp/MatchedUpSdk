@@ -1,6 +1,5 @@
-package io.matchedup.api.actions.impl
+package io.matchedup.api.actions
 
-import io.matchedup.api.actions.IAction
 import kotlinx.serialization.Serializable
 
 @Serializable
