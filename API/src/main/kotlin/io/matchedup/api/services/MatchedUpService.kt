@@ -1,7 +1,7 @@
 package io.matchedup.api.services
 
 import io.matchedup.api.actions.IAction
-import io.matchedup.api.actions.impl.Ping
+import io.matchedup.api.actions.Ping
 import io.matchedup.api.events.EventBus
 import io.matchedup.api.events.EventRegistry
 import io.matchedup.api.events.IEvent
@@ -28,7 +28,7 @@ class MatchedUpService(
 ) : WebSocketClient(URI(matchedUpUrl), Draft_6455(), getHeaders(accessKey, secretKey), 30000) {
 
     private val json = Json {
-        ignoreUnknownKeys = true;
+        ignoreUnknownKeys = true
         isLenient = true
     }
 
@@ -40,6 +40,7 @@ class MatchedUpService(
     @OptIn(InternalSerializationApi::class)
     fun sendAction(action: IAction) {
         if (!this.isOpen) {
+            if (action is Ping) return // out of user control, not a problem
             throw Error("Could not send action, not connected to MatchedUp server")
         }
 

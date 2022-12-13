@@ -1,10 +1,9 @@
-package io.matchedup.api.actions.impl
+package io.matchedup.api.actions
 
-import io.matchedup.api.actions.IAction
 import io.matchedup.api.types.PlayerAttributeType
 import kotlinx.serialization.Serializable
 
-@io.matchedup.api.actions.Action("match-request")
+@Action("match-request")
 @Serializable
 class RequestMatch(
     val uuid: String,

@@ -50,7 +50,7 @@ object AnySerializer : KSerializer<Any> {
             element.map { deserializeJsonElement(it) }
         }
         is JsonPrimitive -> {
-            if (element.isString) element.toString()
+            if (element.isString) element.contentOrNull!!
             else if (element.booleanOrNull != null) element.boolean
             else if (element.intOrNull != null) element.int
             else if (element.doubleOrNull != null) element.double
