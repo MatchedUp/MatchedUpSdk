@@ -109,8 +109,10 @@ object EventRegistry {
         var startIndex = 0
         if (path.startsWith("file:\\")) {
             startIndex = "file:\\".length
-        } else if (path.startsWith("file:/")) {
+        } else if (path.startsWith("file://")) {
             startIndex = "file:/".length
+        } else if (path.startsWith("file:/")) {
+            startIndex = "file:".length
         }
         val jarPath = path.substring(startIndex, jarIndex + ".jar".length)
 
