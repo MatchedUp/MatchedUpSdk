@@ -8,5 +8,5 @@ allprojects {
     buildDir = (parent?.buildDir ?: rootFolder).resolve(name)
 
     group = "io.matchedup"
-    version = "0.0.2"
+    version = "0.0.3"
 }
