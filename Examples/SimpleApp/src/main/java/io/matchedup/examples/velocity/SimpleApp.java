@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 public class SimpleApp {
 
-    private static final String ACCESS_KEY = "Q5RoCOPtWUShnKgodVv+DQ==";
-    private static final String SECRET_KEY = "nhb6B7BY9JvdngXClklOtDUZbxhWZExObrk3ogvjgFs=";
+    private static final String ACCESS_KEY = "<ACCESS_KEY>";
+    private static final String SECRET_KEY = "<SECRET_KEY>";
 
     public static void main(String[] args) {
         // Create client
