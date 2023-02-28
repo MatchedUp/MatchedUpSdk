@@ -9,7 +9,7 @@
         <groupId>io.matchedup</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>api</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </dependency>
 </dependencies>
 ```
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.matchedup:api:0.0.3'
+    implementation 'io.matchedup:api:0.0.4'
 }
 ```
 
@@ -79,6 +79,7 @@ public Unit onMatchCreated(MatchCreatedEvent event) {
 - **MatchCreatedEvent**: Match was created successfully
 - **UserErrorEvent**: A user error has occurred
 - **ClientErrorEvent**: A client (consumer of the SDK) error has occurred
+- **ThrottledRequestErrorEvent**: Error signifying that you've reached your hourly match request limit (if on Free Tier) 
 - **ServerErrorEvent**: An unexpected MatchedUp server error has occurred
 
 ## State of Development

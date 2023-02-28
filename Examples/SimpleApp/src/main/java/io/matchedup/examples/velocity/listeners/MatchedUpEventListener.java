@@ -3,6 +3,7 @@ package io.matchedup.examples.velocity.listeners;
 import io.matchedup.api.MatchedUpClient;
 import io.matchedup.api.events.error.ClientErrorEvent;
 import io.matchedup.api.events.error.ServerErrorEvent;
+import io.matchedup.api.events.error.ThrottledRequestErrorEvent;
 import io.matchedup.api.events.error.UserErrorEvent;
 import io.matchedup.api.events.match.MatchRequestCancelledEvent;
 import io.matchedup.api.events.match.MatchCreatedEvent;
@@ -31,6 +32,7 @@ public class MatchedUpEventListener {
 
         matchedUpClient.getEventBus().registerListener(UserErrorEvent.class, this::onUserError);
         matchedUpClient.getEventBus().registerListener(ClientErrorEvent.class, this::onClientError);
+        matchedUpClient.getEventBus().registerListener(ThrottledRequestErrorEvent.class, this::onThrottledRequestError);
         matchedUpClient.getEventBus().registerListener(ServerErrorEvent.class, this::onServerError);
     }
 
@@ -79,6 +81,11 @@ public class MatchedUpEventListener {
 
     private Unit onClientError(ClientErrorEvent event) {
         System.out.printf("Error: We did something wrong when making a request to MatchedUp: %s %n", event.error);
+        return null;
+    }
+
+    private Unit onThrottledRequestError(ThrottledRequestErrorEvent event) {
+        System.out.println(event.error);
         return null;
     }
 
