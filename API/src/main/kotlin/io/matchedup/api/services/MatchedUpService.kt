@@ -32,7 +32,7 @@ class MatchedUpService(
     }
 
     override fun onOpen(handshakedata: ServerHandshake?) {
-        log.info("Connected to MatchedUps server, starting ping")
+        log.debug("Connected to MatchedUps server, starting ping")
         doPing()
     }
 
