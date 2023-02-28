@@ -6,9 +6,8 @@ import io.matchedup.api.events.EventBus
 import io.matchedup.api.events.EventRegistry
 import io.matchedup.api.events.IEvent
 import io.matchedup.api.events.BaseEvent
-import io.matchedup.api.events.state.DisconnectedEvent
 import io.matchedup.api.events.error.ServerErrorEvent
-import io.matchedup.api.events.state.ConnectedEvent
+import io.matchedup.api.events.state.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -24,7 +23,7 @@ class MatchedUpService(
     matchedUpUrl: String,
     accessKey: String,
     secretKey: String,
-    private val eventBus: EventBus<IEvent>
+    private val eventBus: EventBus<IEvent>,
 ) : WebSocketClient(URI(matchedUpUrl), Draft_6455(), getHeaders(accessKey, secretKey), 30000) {
 
     private val json = Json {
@@ -33,8 +32,8 @@ class MatchedUpService(
     }
 
     override fun onOpen(handshakedata: ServerHandshake?) {
+        log.info("Connected to MatchedUps server, starting ping")
         doPing()
-        eventBus.dispatch(ConnectedEvent())
     }
 
     @OptIn(InternalSerializationApi::class)
@@ -76,7 +75,15 @@ class MatchedUpService(
     }
 
     override fun onClose(code: Int, reason: String?, remote: Boolean) {
-        eventBus.dispatch(DisconnectedEvent())
+        log.debug("Closed server connection. code='$code' reason='$reason'")
+        var finalCode = code
+
+        // Check unauthorized
+        if (reason !== null && reason.indexOf("401") >= 0) {
+            finalCode = 401
+        }
+
+        eventBus.dispatch(InternalDisconnectedEvent(finalCode, reason))
     }
 
     override fun onError(ex: Exception?) {
