@@ -18,7 +18,7 @@ class MatchedUpClient @JvmOverloads constructor(
 ) {
 
     val eventBus = EventBus<IEvent>()
-    private val wsUrl = "wss://ws.matchedup.io/dev"
+    private val wsUrl = "wss://ws.matchedup.io/v4"
     private var isManuallyClosed = false
     private var hasConnected = false
 
