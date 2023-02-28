@@ -18,8 +18,8 @@ import org.slf4j.Logger;
 )
 public class MatchedUpVelocityPlugin {
 
-    private static final String ACCESS_KEY = "zo24gHk7QEvL8JoKApIjNg==";
-    private static final String SECRET_KEY = "OHpjNaYyGxkrIOsv+Jq4oHQIHbwcoJ4z8pu5jjEAsDo=";
+    private static final String ACCESS_KEY = "<ACCESS_KEY>";
+    private static final String SECRET_KEY = "<SECRET_KEY>";
 
     private final ProxyServer velocityServer;
     private final Logger log;

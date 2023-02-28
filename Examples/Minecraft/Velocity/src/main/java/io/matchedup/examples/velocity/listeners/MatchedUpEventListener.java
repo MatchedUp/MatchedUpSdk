@@ -12,6 +12,9 @@ import io.matchedup.api.events.match.MatchCreatedEvent;
 import io.matchedup.api.events.match.MatchRequestedEvent;
 import io.matchedup.api.events.match.MatchRequestTimedOutEvent;
 import io.matchedup.api.events.state.ConnectedEvent;
+import io.matchedup.api.events.state.DisconnectedEvent;
+import io.matchedup.api.events.state.FailedToConnectEvent;
+import io.matchedup.api.events.state.ReconnectingEvent;
 import io.matchedup.api.resources.MatchPlayer;
 import io.matchedup.api.resources.MatchTicket;
 import kotlin.Unit;
@@ -38,7 +41,11 @@ public class MatchedUpEventListener {
     }
 
     private void registerListeners() {
-        matchedUpClient.getEventBus().registerListener(ConnectedEvent.class, this::onConnect);
+        matchedUpClient.getEventBus().registerListener(ConnectedEvent.class, this::onConnected);
+        matchedUpClient.getEventBus().registerListener(FailedToConnectEvent.class, this::onFailedToConnect);
+        matchedUpClient.getEventBus().registerListener(DisconnectedEvent.class, this::onDisconnected);
+        matchedUpClient.getEventBus().registerListener(ReconnectingEvent.class, this::onReconnecting);
+
         matchedUpClient.getEventBus().registerListener(MatchRequestedEvent.class, this::onMatchRequested);
         matchedUpClient.getEventBus().registerListener(MatchRequestTimedOutEvent.class, this::onMatchTimedOut);
         matchedUpClient.getEventBus().registerListener(MatchRequestCancelledEvent.class, this::onMatchCancelled);
@@ -50,8 +57,23 @@ public class MatchedUpEventListener {
         matchedUpClient.getEventBus().registerListener(ServerErrorEvent.class, this::onServerError);
     }
 
-    public Unit onConnect(ConnectedEvent event) {
-        log.info("Connected to MatchedUp");
+    private Unit onConnected(ConnectedEvent event) {
+        System.out.println("Connected to MatchedUps servers");
+        return null;
+    }
+
+    private Unit onFailedToConnect(FailedToConnectEvent event) {
+        System.out.printf("Failed to connect to MatchedUps servers: code=%s reason='%s'%n", event.getCode(), event.getReason());
+        return null;
+    }
+
+    private Unit onDisconnected(DisconnectedEvent event) {
+        System.out.println("Disconnected from MatchedUps servers");
+        return null;
+    }
+
+    private Unit onReconnecting(ReconnectingEvent event) {
+        System.out.println("Reconnecting to MatchedUps servers");
         return null;
     }
 
@@ -99,7 +121,7 @@ public class MatchedUpEventListener {
     }
 
     private Unit onServerError(ServerErrorEvent event) {
-        log.warn(String.format("Something went wrong on MatchedUp's server: %s", event.error));
+        log.warn(String.format("Something went wrong on MatchedUps server: %s", event.error));
         return null;
     }
 
