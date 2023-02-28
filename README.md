@@ -79,6 +79,7 @@ public Unit onMatchCreated(MatchCreatedEvent event) {
 - **MatchCreatedEvent**: Match was created successfully
 - **UserErrorEvent**: A user error has occurred
 - **ClientErrorEvent**: A client (consumer of the SDK) error has occurred
+- **ThrottledRequestErrorEvent**: Error signifying that you've reached your hourly match request limit (if on Free Tier) 
 - **ServerErrorEvent**: An unexpected MatchedUp server error has occurred
 
 ## State of Development
