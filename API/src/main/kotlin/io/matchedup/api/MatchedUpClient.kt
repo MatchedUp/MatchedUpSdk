@@ -4,25 +4,23 @@ import io.matchedup.api.actions.IAction
 import io.matchedup.api.events.EventBus
 import io.matchedup.api.events.EventRegistry
 import io.matchedup.api.events.IEvent
-import io.matchedup.api.events.state.DisconnectedEvent
-import io.matchedup.api.exceptions.ConnectionFailedException
-import io.matchedup.api.exceptions.InvalidServerException
+import io.matchedup.api.events.state.*
 import io.matchedup.api.services.MatchedUpService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.IOException
-import java.net.URISyntaxException
 import kotlin.concurrent.thread
 
-class MatchedUpClient(
+class MatchedUpClient @JvmOverloads constructor(
     private val accessKey: String,
     private val secretKey: String,
-    private val log: Logger = LoggerFactory.getLogger("MatchedUp")
+    private val log: Logger = LoggerFactory.getLogger("MatchedUp"),
+    private val autoReconnect: Boolean = true,
 ) {
 
     val eventBus = EventBus<IEvent>()
-    private val wsUrl = "wss://ws.matchedup.io/v3"
-    private var isManuallyClosed = false;
+    private val wsUrl = "wss://ws.matchedup.io/v4"
+    private var isManuallyClosed = false
+    private var hasConnected = false
 
     private lateinit var matchedUpService: MatchedUpService
 
@@ -31,15 +29,14 @@ class MatchedUpClient(
         eventBus.registerListener(this::onWsDisconnect)
     }
 
-    fun connect() {
-        try {
-            matchedUpService = MatchedUpService(log, wsUrl, accessKey, secretKey, eventBus)
-            matchedUpService.connect()
-        } catch (e: IOException) {
-            throw ConnectionFailedException(e)
-        } catch (e: URISyntaxException) {
-            throw InvalidServerException()
+    fun connect(): Boolean {
+        matchedUpService = MatchedUpService(log, wsUrl, accessKey, secretKey, eventBus)
+        if (matchedUpService.connectBlocking()) {
+            hasConnected = true
+            eventBus.dispatch(ConnectedEvent())
+            return true
         }
+        return false
     }
 
     fun connectAsync() {
@@ -48,10 +45,21 @@ class MatchedUpClient(
         }
     }
 
-    private fun onWsDisconnect(event: DisconnectedEvent) {
-        if (!isManuallyClosed) {
-            log.debug("Attempting to reconnect")
+    private fun onWsDisconnect(event: InternalDisconnectedEvent) {
+        if (!hasConnected) {
+            log.debug("Failed to initially connect to server")
+            eventBus.dispatch(FailedToConnectEvent(event.code, event.reason))
+        } else if (isManuallyClosed) {
+            log.debug("Manually closed connection to server")
+            eventBus.dispatch(DisconnectedEvent(event.code, event.reason))
+        } else if (!autoReconnect) {
+            log.debug("Disconnected, not auto reconnecting since its disabled")
+            eventBus.dispatch(DisconnectedEvent(event.code, event.reason))
+        } else if (!isManuallyClosed && autoReconnect) {
+            log.debug("Lost connection to server, attempting to reconnect")
+            eventBus.dispatch(DisconnectedEvent(event.code, event.reason))
             Thread.sleep(10000)
+            eventBus.dispatch(ReconnectingEvent())
             connect()
         }
     }
@@ -61,7 +69,7 @@ class MatchedUpClient(
 
     fun close() {
         log.debug("Shutting down...")
-        matchedUpService.close()
         isManuallyClosed = true
+        matchedUpService.close()
     }
 }
