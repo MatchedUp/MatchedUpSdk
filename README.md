@@ -72,6 +72,8 @@ public Unit onMatchCreated(MatchCreatedEvent event) {
 
 - **ConnectedEvent**: Connected to the MatchedUp servers
 - **DisconnectedEvent**: Disconnected from MatchedUp servers
+- **ReconnectingEvent**: Triggered when connection to the MatchedUp servers was lost and reconnection has started
+- **FailedToConnectEvent**: Triggered when the initial connection to the MatchedUp server fails
 - **MatchRequestedEvent**: Match was requested successfully
 - **MatchRequestCancelledEvent**: Match request was cancelled
 - **MatchRequestTimedOutEvent**: Match request did not get into match and timed out

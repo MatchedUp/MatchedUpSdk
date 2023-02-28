@@ -4,7 +4,7 @@ import io.matchedup.api.events.IEvent
 import kotlinx.serialization.Serializable
 
 @Serializable
-class DisconnectedEvent constructor(
+class InternalDisconnectedEvent constructor(
     val code: Int,
     val reason: String?,
-): IEvent
+) : IEvent
