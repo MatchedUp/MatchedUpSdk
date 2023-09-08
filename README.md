@@ -1,4 +1,4 @@
-# [MatchedUp](https://matchedup.io)
+# [MatchedUp](https://saas.matchedup.io)
 
 ## Installing
 
@@ -9,7 +9,7 @@
         <groupId>io.matchedup</groupId>
         <!-- Modify this line to target the loader you wish to use. -->
         <artifactId>api</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.0.5</version>
     </dependency>
 </dependencies>
 ```
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.matchedup:api:0.0.4-SNAPSHOT'
+    implementation 'io.matchedup:api:0.0.5'
 }
 ```
 
@@ -43,8 +43,9 @@ playerAttributes.put("level", 10);
 // Submit the request to join a match
 client.submitAction(
     new RequestMatch(
+        null, // or provide UUID for the ticket ID
+        matchName,
         playerUuid, 
-        matchName, 
         playerAttributes
     )
 );

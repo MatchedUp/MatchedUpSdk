@@ -7,8 +7,8 @@ import io.matchedup.examples.velocity.utils.Reader;
 
 public class SimpleApp {
 
-    private static final String ACCESS_KEY = "<ACCESS_KEY>";
-    private static final String SECRET_KEY = "<SECRET_KEY>";
+    private static final String ACCESS_KEY = "kc9MWqwhfzIuXrjOPydE1A==";
+    private static final String SECRET_KEY = "6z81MysUX48jNXf5tw9ZuInUG0xMIVBQzHKcdMlAyjw=";
 
     public static void main(String[] args) {
         // Create client
