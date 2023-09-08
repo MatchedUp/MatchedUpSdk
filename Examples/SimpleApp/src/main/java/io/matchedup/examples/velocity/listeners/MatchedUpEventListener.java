@@ -67,7 +67,7 @@ public class MatchedUpEventListener {
 
     private Unit onMatchRequested(MatchRequestedEvent event) {
         for (MatchPlayer player : event.players) {
-            System.out.printf("Player '%s' has requested to join match '%s' %n", player.uuid, event.matchType);
+            System.out.printf("Player '%s' has requested to join match '%s' with ticket: %s %n", player.uuid, event.matchType, event.ticketId);
         }
         return null;
     }
@@ -97,7 +97,7 @@ public class MatchedUpEventListener {
         }
         for (MatchTicket ticket : event.tickets) {
             for (MatchPlayer player : ticket.players) {
-                System.out.printf("  Player '%s' has joined %n", player.uuid);
+                System.out.printf("  Player '%s' has joined with ticket: %s %n", player.uuid, ticket.id);
             }
         }
         return null;
