@@ -47,7 +47,7 @@ publishing {
             pom {
                 name.set("MatchedUp SDK")
                 description.set("The SDK for MatchedUp")
-                url.set("https://matchedup.io")
+                url.set("https://saas.matchedup.io")
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
