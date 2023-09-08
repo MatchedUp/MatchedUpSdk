@@ -7,6 +7,7 @@ import io.matchedup.examples.velocity.utils.Reader;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class JoinMatchCommand {
 
@@ -27,7 +28,8 @@ public class JoinMatchCommand {
         }
 
         // Request match
-        matchedUpClient.submitAction(new RequestMatch(uuid, matchName, playerAttributes));
-        System.out.printf("  > Requested match '%s' successfully %n", matchName);
+        String ticketId = UUID.randomUUID().toString(); // optional, can also provide null
+        matchedUpClient.submitAction(new RequestMatch(ticketId, matchName, uuid, playerAttributes));
+        System.out.printf("  > Requested match '%s' successfully with ticket %s %n", matchName, ticketId);
     }
 }

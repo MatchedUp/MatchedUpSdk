@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 @Action("match-request")
 @Serializable
 class RequestMatch(
-    val uuid: String,
+    val ticketId: String? = null,
     val matchName: String,
+    val uuid: String,
     val playerAttributes: Map<String, PlayerAttributeType> = HashMap()
 ) : IAction
